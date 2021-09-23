@@ -91,6 +91,7 @@ def get_all_posts():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
+    bg_image_url = url_for("static", filename="img/register-bg-img.jpg")
     register_form = RegisterForm()
     if register_form.validate_on_submit():
         if User.query.filter_by(email=register_form.email.data).first():
@@ -107,7 +108,7 @@ def register():
             db.session.commit()
             login_user(new_user)
             return redirect(url_for("get_all_posts"))
-    return render_template("register.html", form=register_form)
+    return render_template("register.html", form=register_form, bg_img_url=bg_image_url)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -151,7 +152,8 @@ def show_post(post_id):
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    bg_image_url = url_for('static', filename='img/about-bg.jpg')
+    return render_template("about.html", bg_img_url=bg_image_url)
 
 
 @app.route("/contact")
