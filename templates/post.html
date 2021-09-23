@@ -1,7 +1,7 @@
 {% include "header.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% with is_admin = current_user.is_authenticated and current_user.id == 1 %}
-  <!-- Page Header -->
+
   <header class="masthead" style="background-image: url('{{post.img_url}}')">
     <div class="overlay"></div>
     <div class="container">
@@ -18,8 +18,6 @@
       </div>
     </div>
   </header>
-
-  <!-- Post Content -->
   <article>
     <div class="container">
       <div class="row">
@@ -34,13 +32,8 @@
             </div>
 
 
-
-<!--           Comments Area -->
-          <!-- Load the CKEditor -->
           {{ ckeditor.load() }}
-          <!-- Configure it with the name of the form field from CommentForm -->
           {{ ckeditor.config(name='comment_text') }}
-          <!-- Create the wtf quickform from CommentForm -->
           {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
           <div class="col-lg-8 col-md-10 mx-auto comment">
               <ul class="commentList">

@@ -71,8 +71,8 @@ class Comment(db.Model):
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.id != 1 or not current_user.is_authenticated:
-            return abort(403)
+        if not current_user.is_authenticated or current_user.id != 1:
+            return redirect(url_for("get_all_posts"))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -155,6 +155,7 @@ def about():
 
 
 @app.route("/contact")
+@admin_only
 def contact():
     return render_template("contact.html")
 
