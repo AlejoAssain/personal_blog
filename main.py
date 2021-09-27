@@ -126,8 +126,8 @@ def login():
                 return redirect(url_for("get_all_posts"))
             else:
                 flash("Incorrect password")
-        else:
-            flash("Incorrect email")
+        # else:
+        #     flash("Incorrect email")
 
     return render_template("login.html", form=login_form, bg_img_url=background_img_url)
 
