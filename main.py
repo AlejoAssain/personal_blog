@@ -91,7 +91,7 @@ def get_all_posts():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    bg_image_url = url_for("static", filename="img/register-bg-img.jpg")
+    background_image_url = url_for("static", filename="img/register-bg-img.jpg")
     register_form = RegisterForm()
     if register_form.validate_on_submit():
         if User.query.filter_by(email=register_form.email.data).first():
@@ -108,21 +108,28 @@ def register():
             db.session.commit()
             login_user(new_user)
             return redirect(url_for("get_all_posts"))
-    return render_template("register.html", form=register_form, bg_img_url=bg_image_url)
+    return render_template("register.html", form=register_form, bg_img_url=background_image_url)
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    background_img_url = url_for("static", filename="img/login_bg_img.jpg")
+    
     login_form = LoginForm()
     
     if login_form.validate_on_submit:
         user = User.query.filter_by(email=login_form.email.data).first()
         
-        if user and check_password_hash(user.password, login_form.password.data):
-            login_user(user)
-            return redirect(url_for("get_all_posts"))
+        if user:
+            if check_password_hash(user.password, login_form.password.data):
+                login_user(user)
+                return redirect(url_for("get_all_posts"))
+            else:
+                flash("Incorrect password")
+        else:
+            flash("Incorrect email")
 
-    return render_template("login.html", form=login_form)
+    return render_template("login.html", form=login_form, bg_img_url=background_img_url)
 
 
 @app.route('/logout', methods=["GET", "POST"])
@@ -152,7 +159,7 @@ def show_post(post_id):
 
 @app.route("/about")
 def about():
-    bg_image_url = url_for('static', filename='img/about-bg.jpg')
+    bg_image_url = url_for('static', filename='img/about_bg_img.jpg')
     return render_template("about.html", bg_img_url=bg_image_url)
 
 
